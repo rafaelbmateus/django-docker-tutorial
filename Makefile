@@ -1,5 +1,5 @@
 PROJECT_NAME = myproject
-APP_NAME = myapp
+APP_NAME = polls
 
 build:
 	docker-compose build
@@ -8,7 +8,13 @@ start:
 	docker-compose up -d
 
 stop:
-	docker-compose down --volume
+	docker-compose down
+
+restart:
+	docker-compose restart
+
+log:
+	docker-compose logs
 
 clean:
 	rm ${PROJECT_NAME} -rf
@@ -16,11 +22,11 @@ clean:
 	rm manage.py -f
 	docker-compose down -v --rmi all --remove-orphans
 
-create_app:
-	docker-compose run web ./manage.py startapp ${APP_NAME}
-
 create_project:
 	docker-compose run web django-admin startproject ${PROJECT_NAME} .
+
+create_app:
+	docker-compose run web ./manage.py startapp ${APP_NAME}
 
 pip_list:
 	docker-compose run web pip list
@@ -37,8 +43,20 @@ ssh:
 django_version:
 	docker-compose run web python -c "import django; print(django.get_version())"
 
-migrate:
+project_migrate:
 	docker-compose run web python manage.py migrate
+
+app_makemigrations:
+	docker-compose run web python manage.py makemigrations ${APP_NAME}
+
+app_sqlmigrate:
+	docker-compose run web python manage.py sqlmigrate ${APP_NAME} 0001
+
+app_migrate:
+	docker-compose run web python manage.py migrate ${APP_NAME}
+
+app_test:
+	docker-compose run web python manage.py test ${APP_NAME}
 
 create_super_user:
 	docker-compose run web python manage.py createsuperuser
