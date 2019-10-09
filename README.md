@@ -5,6 +5,7 @@ This tutorial was following the Django Tutorial using docker, docker compose and
 2. Create database: `make migrate`
 3. Create a super user: `make create_super_user`
 4. Run the project: `make start`
+5. Open in your browse `http://localhost:8000/polls/` or `http://localhost:8000/admin/`
 
 ## Next steps?
 1. [Writing your first Django app](https://tutorial.djangogirls.org/pt/django_start_project/)
